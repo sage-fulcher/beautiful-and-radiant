@@ -1,43 +1,76 @@
-import { Box } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import { Box, withStyles } from '@material-ui/core'
+import React, { useEffect, useState, useRef } from 'react'
 import Webcam from 'react-webcam'
 
 const videoConstraints = {
-  width: 260,
-  height: 200,
+  width: 640,
+  height: 480,
 }
 
 export const DeadSimple = () => {
   const webcamRef = React.useRef(null)
-  const [src, setSrc] = useState('')
+  let srcs = useRef([])
+  const [newSrc, setNewSrc] = useState(null)
 
-  const capture = React.useCallback(() => {
+  useEffect(() => {
     if (webcamRef.current) {
-      const imageSrc = webcamRef.current.getScreenshot()
-      debugger
-      setSrc(imageSrc)
+      function getImage() {
+        const imageSrc = webcamRef.current.getScreenshot()
+        setNewSrc(imageSrc)
+      }
+      getImage()
+      const interval = setInterval(() => getImage(), 300)
+      return () => {
+        clearInterval(interval)
+      }
     }
   }, [webcamRef])
 
   useEffect(() => {
-    console.log(src)
-  }, [src])
+    if (newSrc) {
+      const appendedSrcs = [newSrc, ...srcs.current]
+      srcs.current = appendedSrcs.slice(0, 10)
+    }
+  }, [newSrc])
 
   return (
     <Box>
-      <button onClick={() => capture()}>Capture</button>
-      {src == '' ? (
-        <Webcam
-          audio={false}
-          height={200}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          width={260}
-          videoConstraints={videoConstraints}
+      <Box display="flex" flexDirection="column" style={{ position: 'relative' }}>
+        <Box zIndex={-1}>
+          <Webcam
+            audio={false}
+            height={480}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            width={640}
+            videoConstraints={videoConstraints}
+          />
+        </Box>
+        <Box
+          bgcolor="white"
+          zIndex={0}
+          width={'100%'}
+          height={'100%'}
+          style={{
+            opacity: 1,
+            position: 'absolute',
+          }}
         />
-      ) : (
-        <img src={src} />
-      )}
+        {srcs.current.map((src) => (
+          <Box
+            zIndex={1}
+            style={{
+              opacity: 0.1,
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <img src={src} />
+          </Box>
+        ))}
+      </Box>
     </Box>
   )
 }

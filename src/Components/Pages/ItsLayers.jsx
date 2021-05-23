@@ -2,7 +2,7 @@ import { Box, Typography } from '@material-ui/core'
 import React, { useRef, useEffect, useState } from 'react'
 import { DeadSimple } from '../Organisms/deadSimple'
 
-export const NoEscape = () => {
+export const ItsLayers = () => {
   const [frame, setFrame] = useState(null)
 
   useEffect(() => {
@@ -25,10 +25,10 @@ export const NoEscape = () => {
   }, [])
   return (
     <Box>
-      <Typography variant="h1">NO ESCAPE</Typography>
+      <Typography variant="h1">IT'S LAYERS TO THIS</Typography>
       <DeadSimple />
     </Box>
   )
 }
 
-export default NoEscape
+export default ItsLayers

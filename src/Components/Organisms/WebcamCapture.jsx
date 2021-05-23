@@ -15,6 +15,7 @@ export const WebcamCapture = () => {
   const capture = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot()
     setSrc(imageSrc)
+    setTimeout(()=> capture(), 500)
   }, [webcamRef])
 
   return (
@@ -28,6 +29,7 @@ export const WebcamCapture = () => {
         videoConstraints={videoConstraints}
       />
       <button onClick={capture()}>Capture</button>
+      {src && <img src={}src/>}
     </Box>
   )
 }
