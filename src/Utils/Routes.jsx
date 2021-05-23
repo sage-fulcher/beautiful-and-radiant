@@ -1,7 +1,7 @@
 import React from 'react'
-import { BrowserRouter as Router, Redirect, Route, useLocation } from 'react-router-dom'
-import ItsLayers from '../Components/Pages/ItsLayers'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import HomePage from '../Components/Pages/HomePage'
+import ItsLayers from '../Components/Pages/ItsLayers'
 
 export const paths = {
   homepage: () => '/',
@@ -17,9 +17,4 @@ export function Routes() {
       <Route path={paths.homepage()} exact component={HomePage} />
     </Router>
   )
-}
-
-export default {
-  Routes,
-  paths,
 }

@@ -1,5 +1,5 @@
-import { Box, withStyles } from '@material-ui/core'
-import React, { useEffect, useState, useRef } from 'react'
+import { Box } from '@material-ui/core'
+import React, { useEffect, useRef, useState } from 'react'
 import Webcam from 'react-webcam'
 
 const videoConstraints = {
@@ -67,7 +67,7 @@ export const DeadSimple = () => {
               transform: 'translate(-50%, -50%)',
             }}
           >
-            <img src={src} />
+            <img src={src} alt="You from a few milliseconds ago" />
           </Box>
         ))}
       </Box>
