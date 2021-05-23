@@ -36,16 +36,6 @@ export const DeadSimple = () => {
   return (
     <Box>
       <Box display="flex" flexDirection="column" style={{ position: 'relative' }}>
-        <Box zIndex={-1}>
-          <Webcam
-            audio={false}
-            height={480}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            width={640}
-            videoConstraints={videoConstraints}
-          />
-        </Box>
         <Box
           bgcolor="white"
           zIndex={0}
@@ -56,6 +46,16 @@ export const DeadSimple = () => {
             position: 'absolute',
           }}
         />
+        <Box zIndex={-1}>
+          <Webcam
+            audio={false}
+            height={480}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            width={640}
+            videoConstraints={videoConstraints}
+          />
+        </Box>
         {srcs.current.map((src) => (
           <Box
             width={'100vw'}
