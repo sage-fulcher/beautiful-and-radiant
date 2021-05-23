@@ -49,8 +49,8 @@ export const DeadSimple = () => {
         <Box
           bgcolor="white"
           zIndex={0}
-          width={'100%'}
-          height={'100%'}
+          width={'100vw'}
+          height={'90vh'}
           style={{
             opacity: 1,
             position: 'absolute',
@@ -58,16 +58,22 @@ export const DeadSimple = () => {
         />
         {srcs.current.map((src) => (
           <Box
+            width={'100vw'}
+            height={'90vh'}
+            paddingBottom={'50px'}
             zIndex={1}
             style={{
               opacity: 0.1,
               position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
             }}
           >
-            <img src={src} alt="You from a few milliseconds ago" />
+            <img
+              paddingBottom={'50px'}
+              height="auto"
+              width="100%"
+              src={src}
+              alt="You from a few milliseconds ago"
+            />
           </Box>
         ))}
       </Box>
