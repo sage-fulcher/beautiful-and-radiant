@@ -1,5 +1,5 @@
 import { Box, Typography } from '@material-ui/core'
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import useInterval from 'react-useinterval'
 
 function hslToHex(h, s, l) {
@@ -62,7 +62,7 @@ export const Sorting = () => {
   const theElements = useRef(starter)
   const prevIndexRef = useRef(0)
   const done = useRef(false)
-  const prevMinRef = useRef(numElements + 1)
+  // const prevMinRef = useRef(numElements + 1)
 
   const bubbleSort = () => {
     let prevIndex = prevIndexRef.current
@@ -89,61 +89,61 @@ export const Sorting = () => {
     return arr
   }
 
-  const insertionSort = () => {
-    let arr = theElements.current
-    let prevIndex = prevIndexRef.current
+  // const insertionSort = () => {
+  //   let arr = theElements.current
+  //   let prevIndex = prevIndexRef.current
 
-    for (let i = prevIndex; i < arr.length; i++) {
-      prevIndexRef.current = i + 1
-      // Start comparing current element with every element before it
-      for (let j = i - 1; j > -1; j--) {
-        console.log(j)
-        console.table([arr[j], arr[j + 1]])
-        // Swap elements as required
-        if (arr[j + 1] < arr[j]) {
-          swapStyles(j, j + 1)
-          // document.getElementById('bar' + (j + 1)).parentElement.style.height =
-          //   (arr[j] / numElements) * 100 + '%'
-          // document.getElementById('bar' + j).parentElement.style.height =
-          //   (arr[j + 1] / numElements) * 100 + '%'
-          ;[theElements.current[j + 1], theElements.current[j]] = [arr[j], arr[j + 1]]
-        }
-      }
-      return arr
-    }
-    return arr
-  }
+  //   for (let i = prevIndex; i < arr.length; i++) {
+  //     prevIndexRef.current = i + 1
+  //     // Start comparing current element with every element before it
+  //     for (let j = i - 1; j > -1; j--) {
+  //       console.log(j)
+  //       console.table([arr[j], arr[j + 1]])
+  //       // Swap elements as required
+  //       if (arr[j + 1] < arr[j]) {
+  //         swapStyles(j, j + 1)
+  //         // document.getElementById('bar' + (j + 1)).parentElement.style.height =
+  //         //   (arr[j] / numElements) * 100 + '%'
+  //         // document.getElementById('bar' + j).parentElement.style.height =
+  //         //   (arr[j + 1] / numElements) * 100 + '%'
+  //         ;[theElements.current[j + 1], theElements.current[j]] = [arr[j], arr[j + 1]]
+  //       }
+  //     }
+  //     return arr
+  //   }
+  //   return arr
+  // }
 
-  const selectionSort = () => {
-    let min = prevMinRef.current
-    let arr = theElements.current
-    let prevIndex = prevIndexRef.current
+  // const selectionSort = () => {
+  //   let min = prevMinRef.current
+  //   let arr = theElements.current
+  //   let prevIndex = prevIndexRef.current
 
-    for (let i = prevIndex; i < arr.length; i++) {
-      prevIndexRef.current = i + 1
-      // Assume a minimum value
-      prevMinRef.current = i
-      for (let j = i + 1; j < arr.length; j++) {
-        if (arr[j] < arr[prevMinRef.current]) {
-          prevMinRef.current = j
-        }
-      }
+  //   for (let i = prevIndex; i < arr.length; i++) {
+  //     prevIndexRef.current = i + 1
+  //     // Assume a minimum value
+  //     prevMinRef.current = i
+  //     for (let j = i + 1; j < arr.length; j++) {
+  //       if (arr[j] < arr[prevMinRef.current]) {
+  //         prevMinRef.current = j
+  //       }
+  //     }
 
-      // Swap if new minimun value found
-      if (prevMinRef.current !== i) {
-        swapStyles(i, prevMinRef.current)
+  //     // Swap if new minimun value found
+  //     if (prevMinRef.current !== i) {
+  //       swapStyles(i, prevMinRef.current)
 
-        // document.getElementById('bar' + i).parentElement.style.height =
-        //   (arr[prevMinRef.current] / numElements) * 100 + '%'
-        // document.getElementById('bar' + prevMinRef.current).parentElement.style.height =
-        //   (arr[i] / numElements) * 100 + '%'
-        ;[arr[i], arr[prevMinRef.current]] = [arr[prevMinRef.current], arr[i]]
-        theElements.current = arr
-      }
-      return
-    }
-    return arr
-  }
+  //       // document.getElementById('bar' + i).parentElement.style.height =
+  //       //   (arr[prevMinRef.current] / numElements) * 100 + '%'
+  //       // document.getElementById('bar' + prevMinRef.current).parentElement.style.height =
+  //       //   (arr[i] / numElements) * 100 + '%'
+  //       ;[arr[i], arr[prevMinRef.current]] = [arr[prevMinRef.current], arr[i]]
+  //       theElements.current = arr
+  //     }
+  //     return
+  //   }
+  //   return arr
+  // }
   // useEffect(() => {
   //   console.log('checking')
   //   setStopSorting(!theElements.find((e, idx) => e !== idx))
