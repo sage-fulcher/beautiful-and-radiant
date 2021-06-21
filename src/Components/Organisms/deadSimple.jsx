@@ -8,7 +8,7 @@ const videoConstraints = {
 }
 
 export const DeadSimple = () => {
-  const webcamRef = React.useRef(null)
+  const webcamRef = useRef(null)
   let srcs = useRef([])
   const [newSrc, setNewSrc] = useState(null)
 
