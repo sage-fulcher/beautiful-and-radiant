@@ -23,7 +23,7 @@ export const Sorting = () => {
     const h = (height / numElements) * 255
     return hslToHex(h, 100, 50)
   }
-  const numElements = 2000
+  const numElements = 4000
   const shuffle = (array) => {
     var currentIndex = array.length,
       randomIndex
