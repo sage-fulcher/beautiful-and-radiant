@@ -1,4 +1,5 @@
 import { Box, Button, Card, TextField, Typography } from '@material-ui/core'
+import { EvilCheckboxesGroup } from '../molecules/EvilCheckboxesGroup'
 import React, { useContext, useState } from 'react'
 
 export const MuseumOnMaliciousUiContext = React.createContext()
@@ -32,6 +33,7 @@ const EvilButton = () => {
     >
       <Button
         onClick={() => handleClick()}
+        onMouseEnter={() => (attempts > 8 ? handleMouseEnter() : null)}
         disabled={hovered || isDone || extraBlock}
         variant="contained"
       >
@@ -70,7 +72,7 @@ const EvilText = () => {
   )
 }
 
-export const ItsMoving = () => {
+export const MuseumOfMaliciousUi = () => {
   const [attempts, setAttempts] = useState(0)
   const [successes, setSuccesses] = useState(0)
 
@@ -100,6 +102,15 @@ export const ItsMoving = () => {
               <Typography variant="h3">{`TYPE THE FOLLOWING PHRASE:`}</Typography>
               <Typography variant="body1">{`THE PROBLEM EXIST BETWEEN THE KEYBOARD AND CHAIR`}</Typography>
               <EvilText />
+            </Box>
+          </Card>
+        </Box>
+        <Box width={'fit-content'} p={'24px'}>
+          <Card>
+            <Box display={'flex'} flexDirection={'column'} width={'fit-content'} p={'12px'}>
+              <Typography variant="h3">{`TYPE THE FOLLOWING PHRASE:`}</Typography>
+              <Typography variant="body1">{`THE PROBLEM EXIST BETWEEN THE KEYBOARD AND CHAIR`}</Typography>
+              <EvilCheckboxesGroup />
             </Box>
           </Card>
         </Box>
