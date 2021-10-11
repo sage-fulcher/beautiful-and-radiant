@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from '@material-ui/core'
+import { Box, Card, Divider, Typography } from '@material-ui/core'
 import Papa from 'papaparse'
 import React, { useEffect, useState } from 'react'
 import Linkify from 'react-linkify'
@@ -11,66 +11,85 @@ const reduceGiftToYesOrNo = (inString = '') => {
 const CharityDisplay = ({ decorator, text, note, phoneNumber }) => {
   const [showMore, setShowMore] = useState(false)
   return (
-    <Box
-      width={'100%'}
-      maxWidth={'100%'}
-      maxHeight={'50%'}
-      p={2}
-      boxSizing="border-box"
-      style={{
-        overflow: 'hidden',
-        overflowY: 'auto', // added scroll
-      }}
-      textOverflow="wrap"
-    >
-      <Typography variant="h4">
-        {decorator} - {reduceGiftToYesOrNo(text)}
-      </Typography>
-      <Typography variant="body2">
-        <Box width="100%">
-          <Linkify>{text.replace('no', '').replace('yes ', '')} </Linkify>
-        </Box>
-      </Typography>
-      {note && !showMore ? (
+    <Linkify>
+      <Box
+        width={'100%'}
+        maxWidth={'100%'}
+        maxHeight={'50%'}
+        px={2}
+        boxSizing="border-box"
+        style={{
+          overflow: 'hidden',
+          overflowY: 'auto', // added scroll
+        }}
+        textOverflow="wrap"
+      >
         <Box
-          onClick={() => setShowMore(true)}
-          pt={1}
+          fontFamily="Lato"
+          width="100%"
           display="flex"
           flexDirection="row"
           justifyContent="center"
-          width={'100%'}
-          style={{ cursor: 'pointer' }}
+          pt={1}
         >
-          <Typography variant="subtitle2">--- More Info ---</Typography>{' '}
+          <Typography variant="h5">
+            {decorator} - {reduceGiftToYesOrNo(text)}
+          </Typography>
         </Box>
-      ) : (
-        <Box pt={1} display="flex" flexDirection="row" justifyContent="center" width={'100%'}>
-          <Linkify>
+        <Typography variant="body">{text.replace('no', '').replace('yes ', '')}</Typography>
+        {note && !showMore ? (
+          <Box
+            onClick={() => setShowMore(true)}
+            pt={1}
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            width={'100%'}
+            style={{ cursor: 'pointer' }}
+          >
+            <Typography variant="subtitle2">--- More Info ---</Typography>{' '}
+          </Box>
+        ) : (
+          <Box pt={1}>
             <Typography variant="subtitle2">{note}</Typography>
-          </Linkify>
-        </Box>
-      )}
-    </Box>
+          </Box>
+        )}
+      </Box>
+    </Linkify>
   )
 }
-const CharityCard = ({ name, gift, giftNote, food, foodNote, phoneNumber }) => {
+const CharityCard = ({ name, gift, giftNote, food, foodNote, phoneNumber, index }) => {
+  // const borderColors = ['#3a3c58', '#c7a050', '#a186a3', '#9ca8c3', '#a1798a']
+  const borderColors = ['#c6b6e4', '#8b7fa0', '#e4cab6', '#a08d7f', '#cde4b6']
+
   return (
-    <Box
-      width={{ sm: '100%', md: '25%' }}
-      height={{ sm: '70%', md: '70%' }}
-      m={2}
-      // bgcolor="#eeeee4"
-      // boxShadow="0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)"
-    >
-      <Card>
-        <Box p={2}>
-          <Typography variant="h4">{name}</Typography>
+    <Box width={{ xs: '100%', sm: '100%', md: '25%' }} height={'70%'} m={2} border={'5px, 0,0,0'}>
+      <Card
+        // bgcolor="#fbede9"
+        style={{
+          border: 'solid',
+          borderRightWidth: '3px',
+          borderLeftWidth: '12px',
+          borderBottomWidth: '3px',
+          borderTopWidth: '3px',
+          borderColor: borderColors[index % borderColors.length],
+        }}
+        p={1}
+      >
+        <Box p={1}>
+          <Box width={'100%'} display="flex" justifyContent="center">
+            <Typography fontWeight="bold" variant="h3">
+              {name}
+            </Typography>
+          </Box>
+
           {phoneNumber && (
             <a href={'tel:' + phoneNumber}>
-              <Typography variant="subtitle2">📞 - {phoneNumber}</Typography>
+              <Typography variant="body2">📞 - {phoneNumber}</Typography>
             </a>
           )}
         </Box>
+        <Divider light />
         <Box display={'flex'} flexDirection={'column'}>
           {gift && <CharityDisplay decorator="🎁" text={gift} note={giftNote} />}
           {food && <CharityDisplay decorator="🥖" text={food} note={foodNote} />}
@@ -117,13 +136,13 @@ export const MaHolidayHelp = () => {
       justifyContent={'center'}
       style={{
         overflow: 'hidden',
-        overflowY: 'scroll', // added scroll
+        overflowY: 'scroll',
       }}
       width={'100vw'}
       pt={3}
     >
-      {charities.map((charity) => (
-        <CharityCard {...charity} />
+      {charities.map((charity, idx) => (
+        <CharityCard {...charity} key={charity.name} index={idx} />
       ))}
     </Box>
   )
