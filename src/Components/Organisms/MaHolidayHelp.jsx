@@ -91,8 +91,8 @@ const CharityCard = ({ name, gift, giftNote, food, foodNote, phoneNumber, index 
         </Box>
         <Divider light />
         <Box display={'flex'} flexDirection={'column'}>
-          {gift && <CharityDisplay decorator="🎁" text={gift} note={giftNote} />}
-          {food && <CharityDisplay decorator="🥖" text={food} note={foodNote} />}
+          {gift && <CharityDisplay decorator="Gift Assistance 🎁" text={gift} note={giftNote} />}
+          {food && <CharityDisplay decorator="Food Assistance 🥖" text={food} note={foodNote} />}
         </Box>
       </Card>
     </Box>
