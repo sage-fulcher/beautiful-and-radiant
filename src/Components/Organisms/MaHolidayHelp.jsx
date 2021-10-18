@@ -44,7 +44,6 @@ const CharityDisplay = ({ decorator, text, note, phoneNumber }) => {
             .replace('no', '')
             .replace('yes', '')
             .replace('-', '')
-            .toLowerCase()
             .replace(/\w/, (firstLetter) => firstLetter.toUpperCase())}
         </Typography>
         {note && (
