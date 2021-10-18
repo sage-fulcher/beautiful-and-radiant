@@ -11,10 +11,10 @@ const isYesOrNo = (inString) => {
 
 const cleanText = (text) => {
   return text
-    .replace('no', '')
-    .replace('No', '')
-    .replace('yes', '')
-    .replace('Yes', '')
+    .replace('no ', '')
+    .replace('No ', '')
+    .replace('yes ', '')
+    .replace('Yes ', '')
     .replace('-', '')
     .replace(/\w/, (firstLetter) => firstLetter.toUpperCase())
 }
@@ -53,7 +53,6 @@ const CharityDisplay = ({ decorator, text, note, phoneNumber }) => {
         {note && (
           <Box pt={1}>
             <Typography variant="subtitle2">{cleanText(note)}</Typography>
-            <br />
           </Box>
         )}
       </Box>
@@ -65,13 +64,7 @@ const CharityCard = ({ name, gift, giftNote, food, foodNote, phoneNumber, index 
   const borderColors = ['#c6b6e4', '#8b7fa0', '#e4cab6', '#a08d7f', '#cde4b6']
 
   return isYesOrNo(gift) || isYesOrNo(food) ? (
-    <Box
-      width={{ xs: '100%', sm: '100%', md: '25%' }}
-      height={'70%'}
-      m={2}
-      pb={2}
-      border={'5px, 0,0,0'}
-    >
+    <Box width={{ xs: '100%', sm: '100%', md: '25%' }} height={'70%'} m={2} border={'5px, 0,0,0'}>
       <Card
         // bgcolor="#fbede9"
         style={{
@@ -82,9 +75,9 @@ const CharityCard = ({ name, gift, giftNote, food, foodNote, phoneNumber, index 
           borderTopWidth: '3px',
           borderColor: borderColors[index % borderColors.length],
         }}
-        p={1}
+        pb={2}
       >
-        <Box p={1}>
+        <Box p={1} pb={2}>
           <Box width={'100%'} display="flex" justifyContent="center">
             <Typography fontWeight="bold" variant="h3">
               {name}
@@ -98,13 +91,14 @@ const CharityCard = ({ name, gift, giftNote, food, foodNote, phoneNumber, index 
           )}
         </Box>
         <Divider light />
-        <Box display={'flex'} flexDirection={'column'}>
+        <Box display={'flex'} flexDirection={'column'} pb={2}>
           {isYesOrNo(gift) && (
             <CharityDisplay decorator="Gift Assistance 🎁" text={gift} note={giftNote} />
           )}
           {isYesOrNo(food) && (
             <CharityDisplay decorator="Food Assistance 🥖" text={food} note={foodNote} />
           )}
+          <br />
         </Box>
       </Card>
     </Box>
