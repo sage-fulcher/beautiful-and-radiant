@@ -9,6 +9,16 @@ const isYesOrNo = (inString) => {
   return inString && inString.toLocaleLowerCase().indexOf('yes') > -1
 }
 
+const cleanText = (text) => {
+  return text
+    .replace('no', '')
+    .replace('No', '')
+    .replace('yes', '')
+    .replace('Yes', '')
+    .replace('-', '')
+    .replace(/\w/, (firstLetter) => firstLetter.toUpperCase())
+}
+
 const reduceGiftToYesOrNo = (inString = '') => {
   return isYesOrNo(inString) ? '✅' : '❌'
 }
@@ -39,18 +49,10 @@ const CharityDisplay = ({ decorator, text, note, phoneNumber }) => {
             {decorator} - {reduceGiftToYesOrNo(text)}
           </Typography>
         </Box>
-        <Typography variant="body">
-          {text
-            .replace('no', '')
-            .replace('yes', '')
-            .replace('-', '')
-            .replace(/\w/, (firstLetter) => firstLetter.toUpperCase())}
-        </Typography>
+        <Typography variant="body">{cleanText(text)}</Typography>
         {note && (
           <Box pt={1}>
-            <Typography variant="subtitle2">
-              {note.toLowerCase().replace(/\w/, (firstLetter) => firstLetter.toUpperCase())}
-            </Typography>
+            <Typography variant="subtitle2">{cleanText(note)}</Typography>
             <br />
           </Box>
         )}
