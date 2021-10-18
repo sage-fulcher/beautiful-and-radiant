@@ -13,7 +13,6 @@ const reduceGiftToYesOrNo = (inString = '') => {
   return isYesOrNo(inString) ? '✅' : '❌'
 }
 const CharityDisplay = ({ decorator, text, note, phoneNumber }) => {
-  const [showMore, setShowMore] = useState(false)
   return (
     <Linkify>
       <Box
