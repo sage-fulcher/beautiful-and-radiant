@@ -5,8 +5,12 @@ import Linkify from 'react-linkify'
 
 export const MuseumOnMaliciousUiContext = React.createContext()
 
+const isYesOrNo = (inString) => {
+  return inString && inString.toLocaleLowerCase().indexOf('yes ') > -1
+}
+
 const reduceGiftToYesOrNo = (inString = '') => {
-  return inString && inString.toLocaleLowerCase().indexOf('yes ') > -1 ? '✅' : '❌'
+  return isYesOrNo(inString) ? '✅' : '❌'
 }
 const CharityDisplay = ({ decorator, text, note, phoneNumber }) => {
   const [showMore, setShowMore] = useState(false)
@@ -36,22 +40,19 @@ const CharityDisplay = ({ decorator, text, note, phoneNumber }) => {
             {decorator} - {reduceGiftToYesOrNo(text)}
           </Typography>
         </Box>
-        <Typography variant="body">{text.replace('no', '').replace('yes ', '')}</Typography>
-        {note && !showMore ? (
-          <Box
-            onClick={() => setShowMore(true)}
-            pt={1}
-            display="flex"
-            flexDirection="row"
-            justifyContent="center"
-            width={'100%'}
-            style={{ cursor: 'pointer' }}
-          >
-            <Typography variant="subtitle2">--- More Info ---</Typography>{' '}
-          </Box>
-        ) : (
+        <Typography variant="body">
+          {text
+            .replace('no', '')
+            .replace('yes - ', '')
+            .toLowerCase()
+            .replace(/\w/, (firstLetter) => firstLetter.toUpperCase())}
+        </Typography>
+        {note && (
           <Box pt={1}>
-            <Typography variant="subtitle2">{note}</Typography>
+            <Typography variant="subtitle2">
+              {note.toLowerCase().replace(/\w/, (firstLetter) => firstLetter.toUpperCase())}
+            </Typography>
+            <br />
           </Box>
         )}
       </Box>
@@ -62,7 +63,7 @@ const CharityCard = ({ name, gift, giftNote, food, foodNote, phoneNumber, index 
   // const borderColors = ['#3a3c58', '#c7a050', '#a186a3', '#9ca8c3', '#a1798a']
   const borderColors = ['#c6b6e4', '#8b7fa0', '#e4cab6', '#a08d7f', '#cde4b6']
 
-  return (
+  return isYesOrNo(gift) || isYesOrNo(food) ? (
     <Box width={{ xs: '100%', sm: '100%', md: '25%' }} height={'70%'} m={2} border={'5px, 0,0,0'}>
       <Card
         // bgcolor="#fbede9"
@@ -91,12 +92,16 @@ const CharityCard = ({ name, gift, giftNote, food, foodNote, phoneNumber, index 
         </Box>
         <Divider light />
         <Box display={'flex'} flexDirection={'column'}>
-          {gift && <CharityDisplay decorator="Gift Assistance 🎁" text={gift} note={giftNote} />}
-          {food && <CharityDisplay decorator="Food Assistance 🥖" text={food} note={foodNote} />}
+          {isYesOrNo(gift) && (
+            <CharityDisplay decorator="Gift Assistance 🎁" text={gift} note={giftNote} />
+          )}
+          {isYesOrNo(food) && (
+            <CharityDisplay decorator="Food Assistance 🥖" text={food} note={foodNote} />
+          )}
         </Box>
       </Card>
     </Box>
-  )
+  ) : null
 }
 
 export const MaHolidayHelp = () => {
