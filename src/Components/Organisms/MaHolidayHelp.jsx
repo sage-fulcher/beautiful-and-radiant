@@ -6,7 +6,7 @@ import Linkify from 'react-linkify'
 export const MuseumOnMaliciousUiContext = React.createContext()
 
 const isYesOrNo = (inString) => {
-  return inString && inString.toLocaleLowerCase().indexOf('yes ') > -1
+  return inString && inString.toLocaleLowerCase().indexOf('yes') > -1
 }
 
 const reduceGiftToYesOrNo = (inString = '') => {
@@ -42,7 +42,8 @@ const CharityDisplay = ({ decorator, text, note, phoneNumber }) => {
         <Typography variant="body">
           {text
             .replace('no', '')
-            .replace('yes - ', '')
+            .replace('yes', '')
+            .replace('-', '')
             .toLowerCase()
             .replace(/\w/, (firstLetter) => firstLetter.toUpperCase())}
         </Typography>
@@ -63,7 +64,13 @@ const CharityCard = ({ name, gift, giftNote, food, foodNote, phoneNumber, index 
   const borderColors = ['#c6b6e4', '#8b7fa0', '#e4cab6', '#a08d7f', '#cde4b6']
 
   return isYesOrNo(gift) || isYesOrNo(food) ? (
-    <Box width={{ xs: '100%', sm: '100%', md: '25%' }} height={'70%'} m={2} pb={2} border={'5px, 0,0,0'}>
+    <Box
+      width={{ xs: '100%', sm: '100%', md: '25%' }}
+      height={'70%'}
+      m={2}
+      pb={2}
+      border={'5px, 0,0,0'}
+    >
       <Card
         // bgcolor="#fbede9"
         style={{
