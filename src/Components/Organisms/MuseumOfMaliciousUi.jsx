@@ -108,8 +108,7 @@ export const MuseumOfMaliciousUi = () => {
         <Box width={'fit-content'} p={'24px'}>
           <Card>
             <Box display={'flex'} flexDirection={'column'} width={'fit-content'} p={'12px'}>
-              <Typography variant="h3">{`TYPE THE FOLLOWING PHRASE:`}</Typography>
-              <Typography variant="body1">{`THE PROBLEM EXIST BETWEEN THE KEYBOARD AND CHAIR`}</Typography>
+              <Typography variant="h3">{`ASSIGN RESPONSIBILITY FOR THIS DISASTER`}</Typography>
               <EvilCheckboxesGroup />
             </Box>
           </Card>
