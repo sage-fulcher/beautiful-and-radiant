@@ -23,7 +23,7 @@ export const Sorting = () => {
     const h = (height / numElements) * 255
     return hslToHex(h, 100, 50)
   }
-  const numElements = 4000
+  const numElements = 800
   const shuffle = (array) => {
     var currentIndex = array.length,
       randomIndex
@@ -165,22 +165,64 @@ export const Sorting = () => {
   }
 
   return (
-    <Box>
-      <Typography variant="h1">SORT YOURSELF OUT</Typography>
-      <Box
-        display={'flex'}
-        flexDirection="row"
-        height={'90vh'}
-        width={'95vw'}
-        px={'2.5vw'}
-        alignItems="flex-end"
+    <Box
+      bgcolor={'#008080'}
+      height={'96vh'}
+      width={'96vw'}
+      paddingY={'2vh'}
+      paddingX={'2vw'}
+      display={'flex'}
+      flexDirection={'column'}
+    >
+      <link rel="stylesheet" href="https://unpkg.com/7.css"></link>
+      {/* <Typography variant="h1">SORT YOURSELF OUT</Typography> */}
+      <div
+        className="window glass"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          // height: '98%',
+          // width: '98%',
+          overflow: 'hidden',
+          flexGrow: 1,
+        }}
       >
-        {starter.map((element, idx) => (
-          <Bar key={idx} height={element}>
-            <div id={'bar' + idx} key={'outer' + idx}></div>
-          </Bar>
-        ))}
-      </Box>
+        <div style={{ zIndex: 99 }} className="title-bar">
+          <div className="title-bar-text">SORT YOURSELF OUT</div>
+          <div className="title-bar-controls">
+            <button aria-label="Minimize" />
+            <button aria-label="Maximize" />
+            <button aria-label="Close" />
+          </div>
+        </div>
+        <div
+          class="window-body has-space"
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'flex-end',
+
+            // height: '98%',
+            // width: '98%',
+            overflow: 'hidden',
+            flexGrow: 1,
+          }}
+        >
+          {/* <Box
+            display={'flex'}
+            flexDirection="row"
+            height={'100%'}
+            width={'100%'}
+            // alignItems="flex-end"
+          > */}
+          {starter.map((element, idx) => (
+            <Bar key={idx} height={element}>
+              <div id={'bar' + idx} key={'outer' + idx}></div>
+            </Bar>
+          ))}
+          {/* </Box> */}
+        </div>
+      </div>
     </Box>
   )
 }
