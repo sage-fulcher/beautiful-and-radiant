@@ -58,7 +58,6 @@ const initialDots = generateManyDots(20)
 
 export const Splat = () => {
   const [dots, setDots] = useState(initialDots)
-  const [listening, setListening] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
   const rectRef = useRef()
   const drawDots = useCallback(
@@ -67,21 +66,19 @@ export const Splat = () => {
         var rect = rectRef.current.getBoundingClientRect()
         const xCoord = e.clientX - rect.left
         const yCoord = e.clientY - rect.top
-        if (listening) {
-          if (dots.length > 1) {
-            const lastX = dots[dots.length - 1].left
-            const lastY = dots[dots.length - 1].top
-            const distFromlastPoint = ((xCoord - lastX) ** 2 + (yCoord - lastY) ** 2) ** 0.5
-            if (distFromlastPoint > 15) {
-              setDots([...dots, generateDot(xCoord, yCoord)])
-            }
-          } else {
+        if (dots.length > 1) {
+          const lastX = dots[dots.length - 1].left
+          const lastY = dots[dots.length - 1].top
+          const distFromlastPoint = ((xCoord - lastX) ** 2 + (yCoord - lastY) ** 2) ** 0.5
+          if (distFromlastPoint > 15) {
             setDots([...dots, generateDot(xCoord, yCoord)])
           }
+        } else {
+          setDots([...dots, generateDot(xCoord, yCoord)])
         }
       }
     },
-    [dots, listening],
+    [dots],
   )
 
   return (
@@ -134,8 +131,7 @@ export const Splat = () => {
           fontStyle={'white'}
           position={'relative'}
           onMouseMove={(e) => drawDots(e)}
-          onMouseEnter={() => setListening(true)}
-          onMouseLeave={() => setListening(false)}
+          onTouchMove={(e) => drawDots(e)}
           ref={rectRef}
         >
           {dots.map((dot, idx) => (
