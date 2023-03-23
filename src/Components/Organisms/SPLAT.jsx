@@ -82,75 +82,82 @@ export const Splat = () => {
   )
 
   return (
-    <div
-      className="window"
-      style={{
-        flexDirection: 'column',
-        display: 'flex',
-        height: '100vh',
-        width: '100vw',
-        overflow: 'hidden',
-      }}
+    <Box
+      bgcolor={'#008080'}
+      height={'96vh'}
+      width={'96vw'}
+      paddingY={'2vh'}
+      paddingX={'2vw'}
+      display={'flex'}
     >
-      <div className="title-bar">
-        <div style={{ zIndex: 99 }} className="title-bar-text">
-          SPLAT!
-        </div>
-        <div className="title-bar-controls">
-          <button aria-label="Minimize" onClick={() => setDots([])} />
-          <button aria-label="Maximize" onClick={() => setDots(generateManyDots())} />
-          <button aria-label="Close" onClick={() => setDarkMode(!darkMode)} />
-        </div>
-      </div>
-      <Box
-        bgcolor={darkMode ? 'black' : 'white'}
-        display={'flex'}
-        flexDirection={'row'}
-        flexWrap="wrap"
-        justifyContent={'center'}
-        alignContent={'center'}
+      <div
+        className="window"
         style={{
+          display: 'flex',
+          flexDirection: 'column',
+          //   height: '98%',
+          //   width: '98%',
           overflow: 'hidden',
-          overflowY: 'scroll',
+          flexGrow: 1,
         }}
-        width={'100%'}
-        flexGrow={1}
-        pt={3}
-        fontStyle={'white'}
-        onMouseMove={(e) => drawDots(e)}
-        onMouseEnter={() => setListening(true)}
-        onMouseLeave={() => setListening(false)}
       >
-        {dots.map((dot, idx) => (
-          <Box
-            position={'absolute'}
-            width={dot.size}
-            height={dot.size}
-            bgcolor={dot.color}
-            top={dot.top}
-            left={dot.left}
-            borderRadius={'47%'}
-            key={'dot' + idx}
-          />
-        ))}
-        {darkMode ? (
-          <>
-            <BlackTextTypography variant="h1">
-              HELLO <br />
-              BEAUTIFUL!
-            </BlackTextTypography>
-            <BlackTextTypography variant="subtitle2">yes you</BlackTextTypography>
-          </>
-        ) : (
-          <>
-            <WhiteTextTypography variant="h1">
-              HELLO <br />
-              BEAUTIFUL!
-            </WhiteTextTypography>
-            <WhiteTextTypography variant="subtitle2">yes you</WhiteTextTypography>
-          </>
-        )}
-      </Box>
-    </div>
+        <div style={{ zIndex: 99 }} className="title-bar">
+          <div className="title-bar-text">SPLAT!</div>
+          <div className="title-bar-controls">
+            <button aria-label="Minimize" onClick={() => setDots([])} />
+            <button aria-label="Maximize" onClick={() => setDots(generateManyDots())} />
+            <button aria-label="Close" onClick={() => setDarkMode(!darkMode)} />
+          </div>
+        </div>
+        <Box
+          bgcolor={darkMode ? 'black' : 'white'}
+          display={'flex'}
+          flexDirection={'row'}
+          flexWrap="wrap"
+          justifyContent={'center'}
+          alignContent={'center'}
+          style={{
+            overflow: 'hidden',
+          }}
+          width={'100%'}
+          flexGrow={1}
+          pt={3}
+          fontStyle={'white'}
+          onMouseMove={(e) => drawDots(e)}
+          onMouseEnter={() => setListening(true)}
+          onMouseLeave={() => setListening(false)}
+        >
+          {dots.map((dot, idx) => (
+            <Box
+              position={'absolute'}
+              width={dot.size}
+              height={dot.size}
+              bgcolor={dot.color}
+              top={dot.top}
+              left={dot.left}
+              borderRadius={'47%'}
+              key={'dot' + idx}
+            />
+          ))}
+          {darkMode ? (
+            <>
+              <BlackTextTypography variant="h1">
+                HELLO <br />
+                BEAUTIFUL!
+              </BlackTextTypography>
+              <BlackTextTypography variant="subtitle2">yes you</BlackTextTypography>
+            </>
+          ) : (
+            <>
+              <WhiteTextTypography variant="h1">
+                HELLO <br />
+                BEAUTIFUL!
+              </WhiteTextTypography>
+              <WhiteTextTypography variant="subtitle2">yes you</WhiteTextTypography>
+            </>
+          )}
+        </Box>
+      </div>
+    </Box>
   )
 }
