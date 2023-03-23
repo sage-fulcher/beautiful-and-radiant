@@ -1,5 +1,5 @@
 import { Box, Typography, withStyles } from '@material-ui/core'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 const WhiteTextTypography = withStyles({
   root: {
     color: '#FFFFFF',
@@ -23,8 +23,6 @@ const initialDots = []
 
 export const Splat = () => {
   const [dots, setDots] = useState(initialDots)
-  const [lastDot, setLastDot] = useState(initialDots)
-  const [nextDot, setNextDot] = useState(initialDots)
   const drawDots = useCallback(
     (e) => {
       const xCoord = e.clientX
@@ -34,11 +32,9 @@ export const Splat = () => {
         const lastY = dots[dots.length - 1].top
         const distFromlastPoint = ((xCoord - lastX) ** 2 + (yCoord - lastY) ** 2) ** 0.5
         if (distFromlastPoint > 15) {
-          const newDot = generateDot(xCoord, yCoord)
           setDots([...dots, generateDot(xCoord, yCoord)])
         }
       } else {
-        const newDot = generateDot(xCoord, yCoord)
         setDots([...dots, generateDot(xCoord, yCoord)])
       }
     },
