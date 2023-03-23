@@ -93,7 +93,7 @@ export const Splat = () => {
     >
       <Box display={'flex'} justifyContent={'space-between'} alignItems={'baseline'}>
         <WhiteTextTypography variant={'h4'}>
-          You wont't know what you are missing till you go look for it
+          You won't know what you are missing till you go look for it
         </WhiteTextTypography>
       </Box>
       <div
