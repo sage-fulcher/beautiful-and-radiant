@@ -3,7 +3,6 @@ import React from 'react'
 import { DeadSimple } from '../Organisms/deadSimple'
 
 export const ItsLayers = () => {
-  require('xp.css') // here
   return (
     <Box
       bgcolor={'#008080'}
@@ -14,6 +13,7 @@ export const ItsLayers = () => {
       display={'flex'}
       flexDirection={'column'}
     >
+      <link rel="stylesheet" href="https://unpkg.com/xp.css"></link>
       <div
         className="window"
         style={{

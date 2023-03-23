@@ -56,8 +56,6 @@ const generateManyDots = (totalDots = 900) => {
 const initialDots = generateManyDots(20)
 
 export const Splat = () => {
-  require('98.css') // here
-
   const [dots, setDots] = useState(initialDots)
   const [darkMode, setDarkMode] = useState(false)
   const rectRef = useRef()
@@ -92,6 +90,7 @@ export const Splat = () => {
       display={'flex'}
       flexDirection={'column'}
     >
+      <link rel="stylesheet" href="https://unpkg.com/98.css"></link>
       <Box display={'flex'} justifyContent={'space-between'} alignItems={'baseline'}>
         <WhiteTextTypography variant={'h4'}>
           You won't know what you are missing till you go look for it
