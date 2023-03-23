@@ -1,5 +1,5 @@
 import { Box, Typography, withStyles } from '@material-ui/core'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import '98.css'
 
 const WhiteTextTypography = withStyles({
@@ -15,19 +15,6 @@ const BlackTextTypography = withStyles({
   },
 })(Typography)
 
-const generateDot = (x, y) => {
-  const red = Math.random() * 256
-  const green = Math.random() * 256
-  const blue = Math.random() * 256
-  const size = Math.round(Math.random() * 40)
-  return {
-    left: x - size / 2,
-    top: y - size / 2,
-    color: `rgba(${red}, ${green}, ${blue}, 0.15)`,
-    size: `${size}px`,
-  }
-}
-
 function randn_bm() {
   let u = 0,
     v = 0
@@ -37,6 +24,18 @@ function randn_bm() {
   num = num / 10.0 + 0.5 // Translate to 0 -> 1
   if (num > 10 || num < -9) return randn_bm() // resample between 0 and 1
   return num
+}
+const generateDot = (x, y) => {
+  const red = randn_bm() * 256
+  const green = Math.random() * 256
+  const blue = Math.random() * 256
+  const size = Math.round(randn_bm() * 40)
+  return {
+    left: x - size / 2,
+    top: y - size / 2,
+    color: `rgba(${red}, ${green}, ${blue}, 0.15)`,
+    size: `${size}px`,
+  }
 }
 
 const generateManyDots = (totalDots = 900) => {
@@ -61,20 +60,24 @@ export const Splat = () => {
   const [dots, setDots] = useState(initialDots)
   const [listening, setListening] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
+  const rectRef = useRef()
   const drawDots = useCallback(
     (e) => {
-      const xCoord = e.clientX
-      const yCoord = e.clientY
-      if (listening && yCoord > 45) {
-        if (dots.length > 1) {
-          const lastX = dots[dots.length - 1].left
-          const lastY = dots[dots.length - 1].top
-          const distFromlastPoint = ((xCoord - lastX) ** 2 + (yCoord - lastY) ** 2) ** 0.5
-          if (distFromlastPoint > 15) {
+      if (rectRef.current) {
+        var rect = rectRef.current.getBoundingClientRect()
+        const xCoord = e.clientX - rect.left
+        const yCoord = e.clientY - rect.top
+        if (listening) {
+          if (dots.length > 1) {
+            const lastX = dots[dots.length - 1].left
+            const lastY = dots[dots.length - 1].top
+            const distFromlastPoint = ((xCoord - lastX) ** 2 + (yCoord - lastY) ** 2) ** 0.5
+            if (distFromlastPoint > 15) {
+              setDots([...dots, generateDot(xCoord, yCoord)])
+            }
+          } else {
             setDots([...dots, generateDot(xCoord, yCoord)])
           }
-        } else {
-          setDots([...dots, generateDot(xCoord, yCoord)])
         }
       }
     },
@@ -123,9 +126,11 @@ export const Splat = () => {
           flexGrow={1}
           pt={3}
           fontStyle={'white'}
+          position={'relative'}
           onMouseMove={(e) => drawDots(e)}
           onMouseEnter={() => setListening(true)}
           onMouseLeave={() => setListening(false)}
+          ref={rectRef}
         >
           {dots.map((dot, idx) => (
             <Box
