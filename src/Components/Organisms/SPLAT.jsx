@@ -8,6 +8,12 @@ const WhiteTextTypography = withStyles({
     zIndex: 9,
   },
 })(Typography)
+const BlackTextTypography = withStyles({
+  root: {
+    color: '#000000',
+    zIndex: 9,
+  },
+})(Typography)
 
 const generateDot = (x, y) => {
   const red = Math.random() * 256
@@ -38,6 +44,7 @@ const initialDots = []
 export const Splat = () => {
   const [dots, setDots] = useState(initialDots)
   const [listening, setListening] = useState(false)
+  const [darkMode, setDarkMode] = useState(false)
   const drawDots = useCallback(
     (e) => {
       const xCoord = e.clientX
@@ -76,11 +83,11 @@ export const Splat = () => {
         <div className="title-bar-controls">
           <button aria-label="Minimize" onClick={() => setDots([])} />
           <button aria-label="Maximize" onClick={() => setDots(generateManyDots())} />
-          <button aria-label="Close" onClick={() => setDots([])} />
+          <button aria-label="Close" onClick={() => setDarkMode(!darkMode)} />
         </div>
       </div>
       <Box
-        bgcolor="white"
+        bgcolor={darkMode ? 'black' : 'white'}
         display={'flex'}
         flexDirection={'row'}
         flexWrap="wrap"
@@ -110,11 +117,23 @@ export const Splat = () => {
             key={'dot' + idx}
           />
         ))}
-        <WhiteTextTypography variant="h1">
-          HELLO <br />
-          BEAUTIFUL!
-        </WhiteTextTypography>
-        <WhiteTextTypography variant="subtitle2">yes you</WhiteTextTypography>
+        {darkMode ? (
+          <>
+            <BlackTextTypography variant="h1">
+              HELLO <br />
+              BEAUTIFUL!
+            </BlackTextTypography>
+            <BlackTextTypography variant="subtitle2">yes you</BlackTextTypography>
+          </>
+        ) : (
+          <>
+            <WhiteTextTypography variant="h1">
+              HELLO <br />
+              BEAUTIFUL!
+            </WhiteTextTypography>
+            <WhiteTextTypography variant="subtitle2">yes you</WhiteTextTypography>
+          </>
+        )}
       </Box>
     </div>
   )
