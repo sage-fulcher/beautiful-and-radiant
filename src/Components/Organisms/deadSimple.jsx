@@ -34,49 +34,56 @@ export const DeadSimple = () => {
   }, [newSrc])
 
   return (
-    <Box>
-      <Box display="flex" flexDirection="column" style={{ position: 'relative' }}>
+    <Box
+      display="flex"
+      height={'100%'}
+      width={'100%'}
+      flexDirection="column"
+      style={{ position: 'relative' }}
+    >
+      <Box
+        bgcolor="white"
+        zIndex={0}
+        style={{
+          opacity: 1,
+          position: 'absolute',
+        }}
+        width={'100%'}
+        height={'100%'}
+      />
+      <Box zIndex={-1}>
+        <Webcam
+          audio={false}
+          height={480}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          width={640}
+          videoConstraints={videoConstraints}
+        />
+      </Box>
+      {srcs.current.map((src) => (
         <Box
-          bgcolor="white"
-          zIndex={0}
-          width={'100vw'}
-          height={'90vh'}
+          width={'100%'}
+          height={'100%'}
+          paddingBottom={'50px'}
+          zIndex={1}
           style={{
-            opacity: 1,
+            opacity: 0.1,
             position: 'absolute',
           }}
-        />
-        <Box zIndex={-1}>
-          <Webcam
-            audio={false}
-            height={480}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            width={640}
-            videoConstraints={videoConstraints}
+          display={'flex'}
+          justifyContent={'center'}
+          bgcolor={'black'}
+        >
+          <img
+            // paddingBottom={'50px'}
+            height="100%"
+            width="auto"
+            src={src}
+            alt="You from a few milliseconds ago"
           />
         </Box>
-        {srcs.current.map((src) => (
-          <Box
-            width={'100vw'}
-            height={'90vh'}
-            paddingBottom={'50px'}
-            zIndex={1}
-            style={{
-              opacity: 0.1,
-              position: 'absolute',
-            }}
-          >
-            <img
-              paddingBottom={'50px'}
-              height="auto"
-              width="100%"
-              src={src}
-              alt="You from a few milliseconds ago"
-            />
-          </Box>
-        ))}
-      </Box>
+      ))}
     </Box>
   )
 }
