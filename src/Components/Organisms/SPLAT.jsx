@@ -25,8 +25,8 @@ const generateManyDots = () => {
   const dots = []
   console.log('HEY')
   for (let i = 0; i < 800; i++) {
-    const randomX = Math.random() * window.innerWidth + 50
-    const randomY = Math.random() * window.innerHeight + 50
+    const randomX = Math.random() * (window.innerWidth - 100) + 50
+    const randomY = Math.random() * (window.innerHeight - 100) + 50
     dots.push(generateDot(randomX, randomY))
   }
   return dots
@@ -58,7 +58,16 @@ export const Splat = () => {
   )
 
   return (
-    <div className="window">
+    <div
+      className="window"
+      style={{
+        flexDirection: 'column',
+        display: 'flex',
+        height: '98vh',
+        width: '98vw',
+        overflow: 'hidden',
+      }}
+    >
       <div className="title-bar">
         <div className="title-bar-text">SPLAT!</div>
         <div className="title-bar-controls">
@@ -78,8 +87,8 @@ export const Splat = () => {
           overflow: 'hidden',
           overflowY: 'scroll',
         }}
-        width={'100vw'}
-        height={'90vh'}
+        width={'100%'}
+        flexGrow={1}
         pt={3}
         fontStyle={'white'}
         onMouseMove={(e) => drawDots(e)}
