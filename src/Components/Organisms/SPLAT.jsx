@@ -83,7 +83,7 @@ export const Splat = () => {
 
   return (
     <Box
-      bgcolor={'#008080'}
+      bgcolor={darkMode ? '#818181' : '#008080'}
       height={'96vh'}
       width={'96vw'}
       paddingY={'2vh'}
