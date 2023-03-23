@@ -19,7 +19,7 @@ const generateDot = (x, y) => {
   const red = Math.random() * 256
   const green = Math.random() * 256
   const blue = Math.random() * 256
-  const size = Math.random() * 40 + 5
+  const size = Math.round(Math.random() * 40)
   return {
     left: x - size / 2,
     top: y - size / 2,
@@ -39,18 +39,23 @@ function randn_bm() {
   return num
 }
 
-const generateManyDots = () => {
+const generateManyDots = (totalDots = 900) => {
   const dots = []
-  console.log('HEY')
-  for (let i = 0; i < 800; i++) {
-    const randomX = randn_bm() * (window.innerWidth - 200)
-    const randomY = randn_bm() * window.innerHeight
+  const gaussianDots = totalDots * randn_bm()
+  for (let i = 0; i < gaussianDots; i++) {
+    const randomX = randn_bm() * (window.innerWidth - 80) + 60
+    const randomY = randn_bm() * (window.innerHeight - 80) + 60
+    dots.push(generateDot(randomX, randomY))
+  }
+  for (let i = 0; i < totalDots - gaussianDots; i++) {
+    const randomX = Math.random() * (window.innerWidth - 30) + 30
+    const randomY = Math.random() * (window.innerHeight - 80) + 60
     dots.push(generateDot(randomX, randomY))
   }
   return dots
 }
 
-const initialDots = []
+const initialDots = generateManyDots(20)
 
 export const Splat = () => {
   const [dots, setDots] = useState(initialDots)
