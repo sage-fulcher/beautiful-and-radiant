@@ -13,11 +13,12 @@ const generateDot = (x, y) => {
   const red = Math.random() * 256
   const green = Math.random() * 256
   const blue = Math.random() * 256
+  const size = Math.random() * 40 + 5
   return {
-    left: x,
-    top: y,
+    left: x - size / 2,
+    top: y - size / 2,
     color: `rgba(${red}, ${green}, ${blue}, 0.15)`,
-    size: `${Math.random() * 60}px`,
+    size: `${size}px`,
   }
 }
 
@@ -41,7 +42,7 @@ export const Splat = () => {
     (e) => {
       const xCoord = e.clientX
       const yCoord = e.clientY
-      if (listening) {
+      if (listening && yCoord > 45) {
         if (dots.length > 1) {
           const lastX = dots[dots.length - 1].left
           const lastY = dots[dots.length - 1].top
@@ -63,13 +64,15 @@ export const Splat = () => {
       style={{
         flexDirection: 'column',
         display: 'flex',
-        height: '98vh',
-        width: '98vw',
+        height: '100vh',
+        width: '100vw',
         overflow: 'hidden',
       }}
     >
       <div className="title-bar">
-        <div className="title-bar-text">SPLAT!</div>
+        <div style={{ zIndex: 99 }} className="title-bar-text">
+          SPLAT!
+        </div>
         <div className="title-bar-controls">
           <button aria-label="Minimize" onClick={() => setDots([])} />
           <button aria-label="Maximize" onClick={() => setDots(generateManyDots())} />
