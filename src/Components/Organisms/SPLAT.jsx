@@ -1,6 +1,5 @@
 import { Box, Typography, withStyles } from '@material-ui/core'
 import React, { useCallback, useRef, useState } from 'react'
-import '98.css'
 
 const WhiteTextTypography = withStyles({
   root: {
@@ -57,6 +56,8 @@ const generateManyDots = (totalDots = 900) => {
 const initialDots = generateManyDots(20)
 
 export const Splat = () => {
+  require('98.css') // here
+
   const [dots, setDots] = useState(initialDots)
   const [darkMode, setDarkMode] = useState(false)
   const rectRef = useRef()

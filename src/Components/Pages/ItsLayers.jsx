@@ -1,9 +1,9 @@
 import { Box } from '@material-ui/core'
 import React from 'react'
 import { DeadSimple } from '../Organisms/deadSimple'
-import 'xp.css'
 
 export const ItsLayers = () => {
+  require('xp.css') // here
   return (
     <Box
       bgcolor={'#008080'}
