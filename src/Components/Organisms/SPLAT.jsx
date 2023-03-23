@@ -92,7 +92,13 @@ export const Splat = () => {
       paddingY={'2vh'}
       paddingX={'2vw'}
       display={'flex'}
+      flexDirection={'column'}
     >
+      <Box display={'flex'} justifyContent={'space-between'} alignItems={'baseline'}>
+        <WhiteTextTypography variant={'h4'}>
+          You wont't know what you are missing till you go look for it
+        </WhiteTextTypography>
+      </Box>
       <div
         className="window"
         style={{
