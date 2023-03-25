@@ -1,94 +1,223 @@
-// import { Box, Typography, Avatar } from '@material-ui/core'
-// import React, { useRef } from 'react'
-// import { useState } from 'react'
-// import useInterval from 'react-useinterval'
-// import { k_combinations } from '../../Utils/UtilsFromOnline'
+import { Box } from '@material-ui/core'
+import React, { useRef, useCallback } from 'react'
+import { useState, useEffect } from 'react'
+import useInterval from 'react-useinterval'
+import Webcam from 'react-webcam'
 
-// function hslToHex(h, s, l) {
-//   l /= 100
-//   const a = (s * Math.min(l, 1 - l)) / 100
-//   const f = (n) => {
-//     const k = (n + h / 30) % 12
-//     const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)
-//     return Math.round(255 * color)
-//       .toString(16)
-//       .padStart(2, '0') // convert to Hex and prefix "0" if needed
-//   }
-//   return `#${f(0)}${f(8)}${f(4)}`
-// }
+const numRows = 25
+const numCols = 35
 
-// export const TheLocalMeta = () => {
-//   const generateArray = (numElements) => {
-//     return Array.from(Array(numElements).keys())
-//   }
-//   const colorFromWinsAndLosses = (winPercent) => {
-//     // const h = (wins / rounds) * 255
-//     const h = 180 - 50 + winPercent
-//     return hslToHex(h, 100, 50)
-//   }
-//   const numTeams = 10
-//   // const teams = new Array(numTeams).reduce((acc, val, idx) => {
-//   //   acc.push({ name: 'a coolname' + idx, wins: 0, losses: 0 })
-//   //   return acc
-//   // }, [])
-//   const teams = new Array(5).fill('.').map((i, idx) => {
-//     const team = { id: idx, name: 'a cool name' + idx, wins: 0, losses: 0 }
-//     return team
-//   })
+function get_random(list) {
+  return list[Math.floor(Math.random() * list.length)]
+}
 
-//   const pairings = k_combinations(teams, 2)
-//   const initialMatchupHistory = pairings
-//     .map((pairing) => {
-//       const withWinPercentage = { ...pairing, team1WinPercent: Math.floor(Math.random() * 100) }
-//       return withWinPercentage
-//     })
-//     .flat()
+const videoConstraints = {
+  width: numCols * 20,
+  height: numRows * 20,
+}
 
-//   const Square = ({ matchup, ...rest }) => {
-//     const myColor = colorFromWinsAndLosses(matchup.winPercent)
-//     console.log(myColor)
-//     return (
-//       <Box
-//         flex={1}
-//         flexBasis={'9%'}
-//         bgcolor={myColor}
-//         m={'2px'}
-//         // bgcolor={'red'}
-//         {...rest}
-//       >
-//         {matchup.winPercent}
-//       </Box>
-//     )
-//   }
-//   const pixelWidth = Math.floor(numTeams / 16) * 16
-//   const pixelHeight = pixelWidth * (9 / 16)
-//   const getOpponentForTeam = (teamId) => {
-//     const halfTheTeams = numTeams / 2
-//     const randomId = Math.floor(Math.random() * halfTheTeams + halfTheTeams)
-//     return randomId
-//   }
-//   const [matchUpHistory, setMatchUpHistory] = useState(initialMatchupHistory)
-//   const advanceMeta = () => {
-//     const matchUps = []
-//     matchUps.map((m) => (m = ((Math.random() * 180) / Math.random()) * 180 * 100))
-//   }
-//   useInterval(advanceMeta, 3000)
+// Directions: N, S, E, W, NE, NW, SE, SW
+const operations = [
+  [0, 1], // right
+  [0, -1], // left
+  [1, -1], // top left
+  [-1, 1], // top right
+  [1, 1], // top
+  [-1, -1], // bottom
+  [1, 0], // bottom right
+  [-1, 0], // bottom left
+]
 
-//   return (
-//     <Box
-//       display={'flex'}
-//       flexDirection="row"
-//       flexWrap={'wrap'}
-//       height={'95vh'}
-//       width={'75vw'}
-//       px={'2.5vw'}
-//       alignItems=""
-//     >
-//       {matchUpHistory.map((element, idx) => (
-//         <Square key={idx} matchup={element} />
-//       ))}
-//     </Box>
-//   )
-// }
+const generateEmptyGrid = () => {
+  const rows = []
+  for (let i = 0; i < numRows; i++) {
+    rows.push(Array.from(Array(numCols), () => 0))
+  }
+  return rows
+}
 
-// export default TheLocalMeta
+const randomTiles = () => {
+  const rows = []
+  for (let i = 0; i < numRows; i++) {
+    rows.push(Array.from(Array(numCols), () => (Math.random() > 0.7 ? 1 : 0)))
+  }
+  return rows
+}
+
+const GridGame = (bgImg) => {
+  const [grid, setGrid] = useState(() => {
+    return randomTiles()
+  })
+
+  const [running, setRunning] = useState(false)
+  const runningRef = useRef(running)
+  runningRef.current = running
+
+  const runSimulation = useCallback((grid) => {
+    if (!runningRef.current) {
+      return
+    }
+
+    let gridCopy = JSON.parse(JSON.stringify(grid))
+    for (let i = 0; i < numRows; i++) {
+      for (let j = 0; j < numCols; j++) {
+        let neighbors = 0
+
+        operations.forEach(([x, y]) => {
+          const newI = i + x
+          const newJ = j + y
+
+          if (newI >= 0 && newI < numRows && newJ >= 0 && newJ < numCols) {
+            neighbors += grid[newI][newJ]
+          }
+        })
+
+        if (neighbors < 2 || neighbors > 3) {
+          gridCopy[i][j] = 0
+        } else if (grid[i][j] === 0 && neighbors === 3) {
+          gridCopy[i][j] = 1
+        }
+      }
+    }
+
+    setGrid(gridCopy)
+  }, [])
+
+  useInterval(() => {
+    runSimulation(grid)
+  }, 150)
+  useEffect(() => {
+    setRunning(!running)
+    if (!running) {
+      runningRef.current = true
+    }
+  }, [])
+  const blendModes = [
+    // 'multiply',
+    'screen',
+    // 'overlay',
+    // 'darken',
+    'lighten',
+    'color-dodge',
+    'color-burn',
+    'color-burn',
+    // 'hard-light',
+    'soft-light',
+    'difference',
+    'color-burn',
+    'color-burn',
+    'exclusion',
+    'hue',
+    // 'saturation',
+    'color',
+    // 'luminosity',
+  ]
+  const [blendMode, setBlendMode] = useState(get_random(blendModes))
+
+  return (
+    <>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${numCols}, 20px)`,
+          width: 'fit-content',
+          margin: '0 auto',
+          // bgImg: bgImg,
+          bgcolor: '#c3c3c3',
+        }}
+      >
+        {grid.map((rows, i) =>
+          rows.map((col, k) => (
+            <div
+              key={`${i}-${k}`}
+              onClick={() => {
+                // Deep clone grid
+                let newGrid = JSON.parse(JSON.stringify(grid))
+                newGrid[i][k] = grid[i][k] ? 0 : 1
+                setGrid(newGrid)
+              }}
+              style={{
+                width: 18,
+                height: 18,
+                backgroundColor: grid[i][k] ? '#008080' : 'black',
+                border: '1px solid #262934',
+                'mix-blend-mode': blendMode,
+              }}
+            ></div>
+          )),
+        )}
+      </div>
+    </>
+  )
+}
+
+export const TheLocalMeta = () => {
+  const webcamRef = useRef(null)
+  let srcs = useRef([])
+  const [newSrc, setNewSrc] = useState(null)
+
+  useEffect(() => {
+    if (webcamRef.current) {
+      function getImage() {
+        const imageSrc = webcamRef.current.getScreenshot()
+        setNewSrc(imageSrc)
+      }
+      getImage()
+      const interval = setInterval(() => getImage(), 300)
+      return () => {
+        clearInterval(interval)
+      }
+    }
+  }, [webcamRef])
+
+  useEffect(() => {
+    if (newSrc) {
+      const appendedSrcs = [newSrc, ...srcs.current]
+      srcs.current = appendedSrcs.slice(0, 10)
+    }
+  }, [newSrc])
+  return (
+    <Box height={'100vh'}>
+      <Box
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+        }}
+        display={'flex'}
+        justifyContent={'center'}
+        alignItems={'center'}
+      >
+        <GridGame bgImg={newSrc} />
+      </Box>
+
+      <Box
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+        }}
+        display={'flex'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        zIndex={-9}
+      >
+        <Webcam
+          audio={false}
+          height={numRows * 20}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          width={numCols * 20}
+          videoConstraints={videoConstraints}
+          style={{ opacity: 0.8 }}
+        />
+      </Box>
+    </Box>
+  )
+}
+
+export default TheLocalMeta

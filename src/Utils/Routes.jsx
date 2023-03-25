@@ -12,7 +12,6 @@ export const paths = {
   localMeta: () => '/localMeta',
   splat: () => '/splat',
 
-  // EVENT PAGES
   inescapable: () => `/layers`,
 }
 
