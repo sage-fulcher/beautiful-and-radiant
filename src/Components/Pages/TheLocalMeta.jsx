@@ -28,14 +28,6 @@ const operations = [
   [-1, 0], // bottom left
 ]
 
-const generateEmptyGrid = () => {
-  const rows = []
-  for (let i = 0; i < numRows; i++) {
-    rows.push(Array.from(Array(numCols), () => 0))
-  }
-  return rows
-}
-
 const randomTiles = () => {
   const rows = []
   for (let i = 0; i < numRows; i++) {
@@ -91,7 +83,7 @@ const GridGame = (bgImg) => {
     if (!running) {
       runningRef.current = true
     }
-  }, [])
+  }, [running])
   const blendModes = [
     // 'multiply',
     'screen',
@@ -112,7 +104,7 @@ const GridGame = (bgImg) => {
     'color',
     // 'luminosity',
   ]
-  const [blendMode, setBlendMode] = useState(get_random(blendModes))
+  const [blendMode] = useState(get_random(blendModes))
 
   return (
     <>
