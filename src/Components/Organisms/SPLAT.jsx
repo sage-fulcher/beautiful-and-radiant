@@ -124,6 +124,7 @@ export const Splat = () => {
           alignContent={'center'}
           style={{
             overflow: 'hidden',
+            'user-select': 'none',
           }}
           width={'100%'}
           flexGrow={1}

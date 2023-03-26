@@ -152,7 +152,6 @@ export const Sorting = () => {
   // useInterval(selectionSort, 1000)
 
   const Bar = ({ height, children }) => {
-    console.log(height / numElements)
     return (
       <Box
         height={(height / numElements) * 100 + '%'}
@@ -190,7 +189,13 @@ export const Sorting = () => {
         <div style={{ zIndex: 99 }} className="title-bar">
           <div className="title-bar-text">SORT YOURSELF OUT</div>
           <div className="title-bar-controls">
-            <button aria-label="Minimize" />
+            <button
+              aria-label="Minimize"
+              onClick={() => {
+                console.log('CLICK!')
+                theElements.current = starter
+              }}
+            />
             <button aria-label="Maximize" />
             <button aria-label="Close" />
           </div>
@@ -215,7 +220,7 @@ export const Sorting = () => {
             width={'100%'}
             // alignItems="flex-end"
           > */}
-          {starter.map((element, idx) => (
+          {theElements.current.map((element, idx) => (
             <Bar key={idx} height={element}>
               <div id={'bar' + idx} key={'outer' + idx}></div>
             </Bar>
