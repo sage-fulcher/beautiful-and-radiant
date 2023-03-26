@@ -1,6 +1,12 @@
-import { Box } from '@material-ui/core'
+import { Box, Typography, withStyles } from '@material-ui/core'
 import React from 'react'
 import { DeadSimple } from '../Organisms/deadSimple'
+
+const WhiteTextTypography = withStyles({
+  root: {
+    color: '#FFFFFF',
+  },
+})(Typography)
 
 export const ItsLayers = () => {
   return (
@@ -14,6 +20,9 @@ export const ItsLayers = () => {
       flexDirection={'column'}
     >
       <link rel="stylesheet" href="https://unpkg.com/xp.css"></link>
+      <WhiteTextTypography variant="h4">
+        The past, present and future are only illusions, even if stubborn ones
+      </WhiteTextTypography>
       <div
         className="window"
         style={{
