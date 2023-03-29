@@ -12,6 +12,7 @@ export const Rg53xxDb = () => {
       paddingX={'2vw'}
       display={'flex'}
       flexDirection={'column'}
+      justifyContent={'center'}
       style={{
         backgroundImage:
           'url(https://www.newegg.com/insider/wp-content/uploads/windows_xp_bliss-wide.jpg)',
