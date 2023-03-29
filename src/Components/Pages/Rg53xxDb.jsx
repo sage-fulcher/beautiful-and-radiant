@@ -20,7 +20,7 @@ export const Rg53xxDb = () => {
       <link rel="stylesheet" href="https://unpkg.com/xp.css" />
       <div class="window" style={{ width: '100%' }}>
         <div class="title-bar">
-          <div class="title-bar-text">A Window With Stuff In It</div>
+          <div class="title-bar-text">Rg53xx_Visual_database_explorer.exe</div>
           <div class="title-bar-controls">
             <button aria-label="Minimize"></button>
             <button aria-label="Maximize"></button>
