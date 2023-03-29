@@ -26,7 +26,11 @@ export const RomInventory = (platform = 'gba') => {
               <strong>Enter filter here</strong>
             </label>
             <br />
-            <input id="text21" type="text" onChange={(e) => setFilter(e.target.value)} />
+            <input
+              id="text21"
+              type="text"
+              onChange={(e) => setFilter(e.target.value.toLowerCase())}
+            />
           </li>
           <li>
             <strong>
