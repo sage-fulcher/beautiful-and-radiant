@@ -37,6 +37,24 @@ const randomTiles = () => {
 }
 
 const GridGame = (bgImg) => {
+  const blendModes = [
+    // 'multiply',
+    // 'overlay',
+    'darken',
+    // 'lighten',
+    // 'color-dodge',
+    'color-burn',
+    // 'hard-light',
+    // 'soft-light',
+    // 'difference',
+    // 'color-burn',
+    // 'exclusion',
+    // 'saturation',
+    // 'color',
+    // 'luminosity',
+  ]
+  const [blendMode] = useState(get_random(blendModes))
+
   const [grid, setGrid] = useState(() => {
     return randomTiles()
   })
@@ -84,28 +102,6 @@ const GridGame = (bgImg) => {
       runningRef.current = true
     }
   }, [running])
-  const blendModes = [
-    // 'multiply',
-    'screen',
-    // 'overlay',
-    // 'darken',
-    'lighten',
-    'color-dodge',
-    'color-burn',
-    'color-burn',
-    // 'hard-light',
-    'soft-light',
-    'difference',
-    'color-burn',
-    'color-burn',
-    'exclusion',
-    'hue',
-    // 'saturation',
-    'color',
-    // 'luminosity',
-  ]
-  const [blendMode] = useState(get_random(blendModes))
-
   return (
     <>
       <div
@@ -115,7 +111,7 @@ const GridGame = (bgImg) => {
           width: 'fit-content',
           margin: '0 auto',
           // bgImg: bgImg,
-          bgcolor: '#c3c3c3',
+          //   bgcolor: '#c3c3c3',
         }}
       >
         {grid.map((rows, i) =>
@@ -129,10 +125,10 @@ const GridGame = (bgImg) => {
                 setGrid(newGrid)
               }}
               style={{
-                width: 18,
-                height: 18,
+                width: 20,
+                height: 20,
                 backgroundColor: grid[i][k] ? '#008080' : 'black',
-                border: '1px solid #262934',
+                // border: '1px solid #262934',
                 'mix-blend-mode': blendMode,
               }}
             ></div>
@@ -170,44 +166,56 @@ export const TheLocalMeta = () => {
   }, [newSrc])
   return (
     <Box height={'100vh'}>
-      <Box
-        style={{
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-        }}
-        display={'flex'}
-        justifyContent={'center'}
-        alignItems={'center'}
-      >
-        <GridGame bgImg={newSrc} />
-      </Box>
+      <link rel="stylesheet" href="https://unpkg.com/@sakun/system.css" />
+      <div class="window" style={{ height: '100%' }}>
+        <div class="title-bar">
+          <button aria-label="Close" class="close"></button>
+          <h1 class="title">System.css</h1>
+          <button aria-label="Resize" class="resize"></button>
+        </div>
+        <div class="separator"></div>
 
-      <Box
-        style={{
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-        }}
-        display={'flex'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        zIndex={-9}
-      >
-        <Webcam
-          audio={false}
-          height={numRows * 20}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          width={numCols * 20}
-          videoConstraints={videoConstraints}
-          style={{ opacity: 0.8 }}
-        />
-      </Box>
+        <div class="window-pane">
+          <Box
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+            }}
+            display={'flex'}
+            justifyContent={'center'}
+            alignItems={'center'}
+          >
+            <GridGame bgImg={newSrc} />
+          </Box>
+
+          <Box
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+            }}
+            display={'flex'}
+            justifyContent={'center'}
+            alignItems={'center'}
+            zIndex={-9}
+          >
+            <Webcam
+              audio={false}
+              height={numRows * 20}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              width={numCols * 20}
+              videoConstraints={videoConstraints}
+              style={{ opacity: 0.8 }}
+            />
+          </Box>
+        </div>
+      </div>
     </Box>
   )
 }

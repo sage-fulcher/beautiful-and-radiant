@@ -50,24 +50,19 @@ export const EvilCheckboxesGroup = () => {
     const fetchData = async () => {
       const prefs = await mockGetPrefs()
       setPrefs(prefs)
-      console.table(prefs)
     }
     fetchData()
   }, [])
 
   const updatedCheckedById = (id, val) => {
     const _prefs = prefs
-    console.log('find by ID')
     const theIndex = _prefs.findIndex((pref) => pref.id === id)
     _prefs[theIndex].checked = val
-    console.log(val)
-    console.log(_prefs[theIndex])
     setPrefs(_prefs)
   }
 
   const EvilFormControlLabel = ({ pref }) => {
     const { checked, label, id } = pref
-    console.log(label)
     return (
       <FormControlLabel
         key={id}
@@ -83,7 +78,6 @@ export const EvilCheckboxesGroup = () => {
     )
   }
 
-  console.log(prefs)
   return (
     <div className={classes.root}>
       <FormControl component="fieldset" className={classes.formControl}>
